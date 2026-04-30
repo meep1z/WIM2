@@ -17,7 +17,19 @@ namespace WIM
         public MainForm()
         {
             InitializeComponent();
-            Load += MainForm_Load;
+            this.Load += MainForm_Load;
+            btnAdd.Click += btnAdd_Click;
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            var form = new ProductForm();
+            if (form.ShowDialog() == DialogResult.OK && form.Product != null)
+            {
+                LocalDb.InsertProduct(form.Product);
+                LoadProducts();
+                MessageBox.Show("Товар успешно добавлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void MainForm_Load(object? sender, EventArgs e)

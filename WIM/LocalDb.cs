@@ -47,5 +47,21 @@ namespace WIM
 
             return list;
         }
+        internal static int InsertProduct(Product p)
+        {
+            using var conn = new SqlConnection(ConnectionString);
+            using var cmd = new SqlCommand(@"
+INSERT INTO dbo.Products (Name, Quantity, Price, Category)
+VALUES (@Name, @Quantity, @Price, @Category);
+SELECT CAST(SCOPE_IDENTITY() AS int);", conn);
+
+            cmd.Parameters.AddWithValue("@Name", p.Name);
+            cmd.Parameters.AddWithValue("@Quantity", p.Quantity);
+            cmd.Parameters.AddWithValue("@Price", p.Price);
+            cmd.Parameters.AddWithValue("@Category", p.Category);
+
+            conn.Open();
+            return (int)cmd.ExecuteScalar();
+        }
     }
 }
