@@ -2,15 +2,9 @@
 {
     partial class MainForm
     {
-        /// <summary>
-        /// Обязательная переменная конструктора.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.DataGridView dataGridViewProducts;
 
-        /// <summary>
-        /// Освободить все используемые ресурсы.
-        /// </summary>
-        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,21 +14,37 @@
             base.Dispose(disposing);
         }
 
-        #region Код, автоматически созданный конструктором форм Windows
-
-        /// <summary>
-        /// Требуемый метод для поддержки конструктора — не изменяйте 
-        /// содержимое этого метода с помощью редактора кода.
-        /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.dataGridViewProducts = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProducts)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // dataGridViewProducts
+            // 
+            this.dataGridViewProducts.AllowUserToAddRows = false;
+            this.dataGridViewProducts.AllowUserToDeleteRows = false;
+            this.dataGridViewProducts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridViewProducts.Location = new System.Drawing.Point(12, 12);
+            this.dataGridViewProducts.Name = "dataGridViewProducts";
+            this.dataGridViewProducts.ReadOnly = true;
+            this.dataGridViewProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewProducts.Size = new System.Drawing.Size(776, 426);
+            this.dataGridViewProducts.TabIndex = 0;
+            // 
+            // MainForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.Controls.Add(this.dataGridViewProducts);
+            this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "WIM - Управление складом";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProducts)).EndInit();
+            this.ResumeLayout(false);
         }
-
-        #endregion
     }
 }
-
