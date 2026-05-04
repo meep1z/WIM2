@@ -14,6 +14,7 @@ namespace WIM
             this.Load += MainForm_Load;
             btnAdd.Click += btnAdd_Click;
             btnEdit.Click += btnEdit_Click;
+            btnDelete.Click += btnDelete_Click;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -82,6 +83,26 @@ namespace WIM
                 LocalDb.UpdateProduct(form.Product);
                 LoadProducts();
                 MessageBox.Show("Товар успешно обновлен!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewProducts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Выберите товар для удаления", "Предупреждение",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var product = (Product)dataGridViewProducts.SelectedRows[0].DataBoundItem;
+
+            if (MessageBox.Show($"Вы уверены, что хотите удалить товар \"{product.Name}\"?",
+                "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                LocalDb.DeleteProduct(product.Id);
+                LoadProducts();
+                MessageBox.Show("Товар удален!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }

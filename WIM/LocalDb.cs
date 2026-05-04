@@ -69,6 +69,10 @@ SELECT CAST(SCOPE_IDENTITY() AS int);", conn);
                 new SqlParameter("@Price", p.Price),
                 new SqlParameter("@Category", p.Category));
         }
+        internal static void DeleteProduct(int id)
+        {
+            Execute("DELETE FROM dbo.Products WHERE Id = @Id", new SqlParameter("@Id", id));
+        }
 
         private static List<T> Query<T>(string sql, Func<SqlDataReader, T> map)
         {
