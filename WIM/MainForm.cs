@@ -33,6 +33,7 @@ namespace WIM
         {
             _products = LocalDb.GetProducts();
             RefreshGrid();
+            UpdateStatistics();
         }
 
         private void RefreshGrid()
@@ -53,6 +54,23 @@ namespace WIM
                 dataGridViewProducts.Columns["Category"].HeaderText = "Категория";
 
             dataGridViewProducts.ClearSelection();
+        }
+
+        private void UpdateStatistics()
+        {
+            int totalItems = 0;
+            int totalProducts = _products.Count;
+            decimal totalValue = 0;
+
+            foreach (var p in _products)
+            {
+                totalItems += p.Quantity;
+                totalValue += p.Quantity * p.Price;
+            }
+
+            lblTotalItems.Text = $"Всего единиц: {totalItems}";
+            lblTotalProducts.Text = $"Всего товаров: {totalProducts}";
+            lblTotalValue.Text = $"Общая стоимость: {totalValue:N0} руб.";
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
