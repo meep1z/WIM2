@@ -15,6 +15,8 @@ namespace WIM
             btnAdd.Click += btnAdd_Click;
             btnEdit.Click += btnEdit_Click;
             btnDelete.Click += btnDelete_Click;
+            btnSearch.Click += btnSearch_Click;
+            btnRefresh.Click += btnRefresh_Click;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -122,6 +124,33 @@ namespace WIM
                 LoadProducts();
                 MessageBox.Show("Товар удален!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchText = txtSearch.Text.Trim().ToLower();
+
+            if (string.IsNullOrEmpty(searchText))
+            {
+                RefreshGrid();
+                return;
+            }
+
+            var filtered = new List<Product>();
+            foreach (var p in _products)
+            {
+                if (p.Name.ToLower().Contains(searchText) || p.Category.ToLower().Contains(searchText))
+                    filtered.Add(p);
+            }
+
+            dataGridViewProducts.DataSource = null;
+            dataGridViewProducts.DataSource = filtered;
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            txtSearch.Clear();
+            LoadProducts();
         }
     }
 }
