@@ -17,6 +17,8 @@ namespace WIM
             btnDelete.Click += btnDelete_Click;
             btnSearch.Click += btnSearch_Click;
             btnRefresh.Click += btnRefresh_Click;
+            btnIncoming.Click += btnIncoming_Click;
+            btnOutgoing.Click += btnOutgoing_Click;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -151,6 +153,54 @@ namespace WIM
         {
             txtSearch.Clear();
             LoadProducts();
+        }
+
+        private void btnIncoming_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewProducts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Выберите товар", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var product = (Product)dataGridViewProducts.SelectedRows[0].DataBoundItem;
+            var form = new QuantityForm("Поступление", product.Name);
+
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                LocalDb.ChangeQuantity(product.Id, form.Quantity);
+                LoadProducts();
+                MessageBox.Show($"Товар \"{product.Name}\" пополнен на {form.Quantity} шт.",
+                    "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnOutgoing_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewProducts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Выберите товар", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var product = (Product)dataGridViewProducts.SelectedRows[0].DataBoundItem;
+            var form = new QuantityForm("Списание", product.Name);
+
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                if (product.Quantity >= form.Quantity)
+                {
+                    LocalDb.ChangeQuantity(product.Id, -form.Quantity);
+                    LoadProducts();
+                    MessageBox.Show($"С товара \"{product.Name}\" списано {form.Quantity} шт.",
+                        "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Недостаточно товара на складе! Доступно: {product.Quantity} шт.",
+                        "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

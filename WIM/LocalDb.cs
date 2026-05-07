@@ -74,6 +74,13 @@ SELECT CAST(SCOPE_IDENTITY() AS int);", conn);
             Execute("DELETE FROM dbo.Products WHERE Id = @Id", new SqlParameter("@Id", id));
         }
 
+        internal static void ChangeQuantity(int id, int delta)
+        {
+            Execute(
+                @"UPDATE dbo.Products SET Quantity = Quantity + @Delta WHERE Id = @Id",
+                new SqlParameter("@Id", id),
+                new SqlParameter("@Delta", delta));
+        }
         private static List<T> Query<T>(string sql, Func<SqlDataReader, T> map)
         {
             using var conn = new SqlConnection(ConnectionString);
