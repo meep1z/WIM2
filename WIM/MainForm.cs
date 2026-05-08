@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace WIM
@@ -65,16 +66,46 @@ namespace WIM
             int totalItems = 0;
             int totalProducts = _products.Count;
             decimal totalValue = 0;
+            int lowStockCount = 0;
+            int zeroStockCount = 0;
 
             foreach (var p in _products)
             {
                 totalItems += p.Quantity;
                 totalValue += p.Quantity * p.Price;
+                if (p.Quantity < 10 && p.Quantity > 0)
+                    lowStockCount++;
+                if (p.Quantity == 0)
+                    zeroStockCount++;
             }
 
             lblTotalItems.Text = $"Всего единиц: {totalItems}";
             lblTotalProducts.Text = $"Всего товаров: {totalProducts}";
             lblTotalValue.Text = $"Общая стоимость: {totalValue:N0} руб.";
+            lblLowStock.Text = $"Малый остаток (<10): {lowStockCount}";
+            lblZeroStock.Text = $"Нулевой остаток: {zeroStockCount}";
+
+            if (lowStockCount > 0)
+            {
+                lblLowStock.ForeColor = Color.Orange;
+                lblLowStock.Font = new Font(lblLowStock.Font, FontStyle.Bold);
+            }
+            else
+            {
+                lblLowStock.ForeColor = Color.Green;
+                lblLowStock.Font = new Font(lblLowStock.Font, FontStyle.Regular);
+            }
+
+            if (zeroStockCount > 0)
+            {
+                lblZeroStock.ForeColor = Color.Red;
+                lblZeroStock.Font = new Font(lblZeroStock.Font, FontStyle.Bold);
+            }
+            else
+            {
+                lblZeroStock.ForeColor = Color.Green;
+                lblZeroStock.Font = new Font(lblZeroStock.Font, FontStyle.Regular);
+            }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
